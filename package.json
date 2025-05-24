@@ -1,0 +1,37 @@
+{
+  "name": "surf-weather-api",
+  "version": "1.0.0",
+  "description": "Typescript Node.js API",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "api"
+  ],
+  "homepage": "https://github.com/douglasCM22/surf-weather-api#readme",
+  "bugs": {
+    "url": "https://github.com/douglasCM22/surf-weather-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/douglasCM22/surf-weather-api.git"
+  },
+  "license": "ISC",
+  "author": "Douglas Marques",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "yarn build && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/module-alias": "^2.0.4",
+    "@types/node": "^22.15.21",
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "eslint": "^9.27.0",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.3"
+  }
+}
