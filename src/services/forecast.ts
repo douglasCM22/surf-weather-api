@@ -1,21 +1,6 @@
 import StormGlass, { StormGlassNormalizedForecastPoint } from "@src/clients/stormGlass";
+import { IBeach } from "@src/models/beachModel";
 import { InternalError } from "@src/utils/errors/internal-error";
-import e from "express";
-
-export enum BeachPosition {
-    S = 'S',
-    E = 'E',
-    W = 'W',
-    N = 'N'
-}
-
-export interface IBeach {
-    lat: number;
-    lng: number;
-    name: string;
-    position: BeachPosition;
-    user: string;
-}
 
 export interface IBeachForecast extends Omit<IBeach, 'user'>, StormGlassNormalizedForecastPoint {
     rating: number;

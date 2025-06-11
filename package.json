@@ -36,6 +36,7 @@
     "@types/express": "^5.0.2",
     "@types/jest": "^29.5.14",
     "@types/module-alias": "^2.0.4",
+    "@types/mongoose": "^5.11.97",
     "@types/node": "^22.15.21",
     "@types/supertest": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^8.32.1",
@@ -54,6 +55,7 @@
     "body-parser": "^2.2.0",
     "config": "^4.0.0",
     "express": "^5.1.0",
-    "module-alias": "^2.2.3"
+    "module-alias": "^2.2.3",
+    "mongoose": "^8.15.1"
   }
 }
