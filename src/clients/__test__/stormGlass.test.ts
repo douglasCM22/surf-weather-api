@@ -6,15 +6,20 @@ import * as HTTPUtil from '@src/utils/request';
 jest.mock('@src/utils/request');
 
 describe('StormGlass client', () => {
-    const mockedRequest = new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>;
+    const mockedRequest =
+        new HTTPUtil.Request() as jest.Mocked<HTTPUtil.Request>;
 
-    const mockedRequestClass = HTTPUtil.Request as jest.MockedClass<typeof HTTPUtil.Request>;
+    const mockedRequestClass = HTTPUtil.Request as jest.MockedClass<
+        typeof HTTPUtil.Request
+    >;
 
     it('should return an StormGlass normalized forecast from the StormGlass service', async () => {
         const lat = -33.792726;
         const lng = 151.289824;
 
-        mockedRequest.get.mockResolvedValue({ data: stormGlassWeather3 } as HTTPUtil.Response);
+        mockedRequest.get.mockResolvedValue({
+            data: stormGlassWeather3,
+        } as HTTPUtil.Response);
 
         const stormGlass = new StormGlass(mockedRequest);
         const response = await stormGlass.fetchPoints(lat, lng);
@@ -37,7 +42,9 @@ describe('StormGlass client', () => {
             ],
         };
 
-        mockedRequest.get.mockResolvedValue({ data: incompleteResponse } as HTTPUtil.Response);
+        mockedRequest.get.mockResolvedValue({
+            data: incompleteResponse,
+        } as HTTPUtil.Response);
 
         const stormGlass = new StormGlass(mockedRequest);
         const response = await stormGlass.fetchPoints(lat, lng);
@@ -54,7 +61,8 @@ describe('StormGlass client', () => {
         const stormGlass = new StormGlass(mockedRequest);
 
         await expect(stormGlass.fetchPoints(lat, lng)).rejects.toThrow(
-            'Unexpected error when trying to communicate to StormGlass: Network Error')
+            'Unexpected error when trying to communicate to StormGlass: Network Error'
+        );
     });
 
     it('should get an StormGlassResponseError when the StormGlass service responds with error', async () => {

@@ -1,7 +1,7 @@
-import { Beach } from "@src/models/beachModel";
+import { Beach } from '@src/models/beachModel';
 
 describe('Beaches functional tests', () => {
-    beforeAll(async () => await Beach.deleteMany({}));
+    beforeEach(async () => await Beach.deleteMany({}));
 
     describe('Create beach', () => {
         it('should create a new beach with success', async () => {
@@ -12,7 +12,9 @@ describe('Beaches functional tests', () => {
                 position: 'E',
             };
 
-            const response = await global.testRequest.post('/beaches').send(newBeach);
+            const response = await global.testRequest
+                .post('/beaches')
+                .send(newBeach);
 
             expect(response.status).toBe(201);
             expect(response.body).toEqual(expect.objectContaining(newBeach));
@@ -26,7 +28,9 @@ describe('Beaches functional tests', () => {
                 position: 'E',
             };
 
-            const response = await global.testRequest.post('/beaches').send(newBeach);
+            const response = await global.testRequest
+                .post('/beaches')
+                .send(newBeach);
 
             expect(response.status).toBe(422);
             expect(response.body).toEqual({

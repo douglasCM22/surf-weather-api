@@ -1,11 +1,11 @@
-import { Controller, Post } from "@overnightjs/core";
-import { Beach } from "@src/models/beachModel";
+import { Controller, Post } from '@overnightjs/core';
+import { Beach } from '@src/models/beachModel';
 import { Request, Response } from 'express';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 @Controller('beaches')
 export class BeachesController {
-    @Post('')
+    @Post()
     public async create(req: Request, res: Response): Promise<void> {
         try {
             const beach = new Beach(req.body);
@@ -15,8 +15,9 @@ export class BeachesController {
         } catch (error: any) {
             if (error instanceof mongoose.Error.ValidationError) {
                 res.status(422).send({ error: error.message });
-            }else {
+            } else {
                 res.status(500).send({ error: 'Internal server error' });
             }
         }
-    }}
+    }
+}
