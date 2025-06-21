@@ -7,9 +7,22 @@ export abstract class BaseController {
         error: mongoose.Error.ValidationError | Error
     ): void {
         if (error instanceof mongoose.Error.ValidationError) {
-            res.status(422).send({ code: 422, error: error.message });
+            const clientError = this.handleClientError(error);
+            res.status(clientError.code).send(clientError);
         } else {
             res.status(500).send({ code: 500, error: 'something went wrong' });
         }
+    }
+
+    private handleClientError(error: mongoose.Error.ValidationError): { code: number, error: string } {
+        const errorKind = error.errors[Object.keys(error.errors)[0]].kind;
+
+        switch (errorKind) {
+            case 'duplicated':
+                return { code: 409, error: error.message };
+            default:
+                return { code: 422, error: error.message };
+        }
+
     }
 }
