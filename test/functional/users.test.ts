@@ -1,6 +1,5 @@
 import { User } from '@src/models/usersModel';
 import AuthService from '@src/services/auth';
-import c from 'config';
 
 describe('Users functional tests', () => {
     beforeEach(async () => {
@@ -21,7 +20,7 @@ describe('Users functional tests', () => {
 
             expect(response.status).toBe(201);
             await expect(AuthService.comparePassword(newUser.password, response.body.password)).toBeTruthy();
-            expect(response.body).toEqual(expect.objectContaining({...newUser, ...{password: expect.any(String)}}));
+            expect(response.body).toEqual(expect.objectContaining({ ...newUser, ...{ password: expect.any(String) } }));
         });
 
         it('should return 400 when there is a validation error', async () => {
@@ -57,5 +56,25 @@ describe('Users functional tests', () => {
                 error: 'User validation failed: email: Email already exists',
             });
         });
+    });
+
+    describe('when authenticating a user', () => {
+        test('should generate a token for a valid user', async () => {
+            const newUser = {
+                username: 'testuser',
+                email: 'testemail@example.com',
+                password: 'testpassword123',
+            };
+
+            console.error(newUser);
+            await new User(newUser).save();
+            const response = await global.testRequest
+                .post('/users/authenticate')
+                .send({ email: newUser.email, password: newUser.password });
+
+            expect(response.body).toEqual(
+                expect.objectContaining({ token: expect.any(String) })
+            );
+        }, 10000);
     });
 });

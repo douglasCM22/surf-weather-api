@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import bcrypt from 'bcrypt';
 import AuthService from '@src/services/auth';
 
@@ -35,27 +35,26 @@ export interface IUser {
 }
 
 type UserModel = Exclude<IUser, '_id'> & mongoose.Document;
-export const User: mongoose.Model<UserModel> = mongoose.model<UserModel>(
-    'User',
-    schema
-);
+
 
 schema.path('email').validate(async (email: string): Promise<boolean> => {
     const emailCount = await mongoose.models.User.countDocuments({ email });
     return !emailCount;
 }, 'Email already exists', CUSTOM_VALIDATION.DUPLICATED);
 
-schema.pre<UserModel>('save', async function (): Promise<void> {
-    if (!this.password || !this.isModified('password')) {
-        return;
-    }
+schema.pre<UserModel & Document>('save', async function (): Promise<void> {
+  if (!this.password || !this.isModified('password')) {
+    return;
+  }
+  try {
+    const hashedPassword = await AuthService.encryptPassword(this.password);
+    this.password = hashedPassword;
+  } catch (err) {
+    console.error(`Error hashing the password for the user ${this.username}`, err);
+  }
+});
 
-    try {
-        const hashedPassword = await AuthService.encryptPassword(this.password);
-        this.password = hashedPassword;
-
-    } catch (error) {
-        console.error('Error encrypting password:', error);
-    }
-})
-
+export const User: mongoose.Model<UserModel> = mongoose.model<UserModel>(
+    'User',
+    schema
+);
